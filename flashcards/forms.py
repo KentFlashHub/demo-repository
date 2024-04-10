@@ -8,3 +8,4 @@ class FlashCardForm(ModelForm):
 	class Meta:
 		model = FlashCard
 		fields = ['category', 'front', 'back']
+		

@@ -13,11 +13,11 @@ from django.contrib.auth.decorators import login_required
 # get number of cards in evey category
 def get_counts(all_cards):
     counts = []
-    count_alg = all_cards.filter(category='Algorithms').count()
+    count_alg = all_cards.filter(category='AI').count()
     counts.append(count_alg)
-    count_ds = all_cards.filter(category='Data-Structures').count()
+    count_ds = all_cards.filter(category='ML').count()
     counts.append(count_ds)
-    count_com = all_cards.filter(category='Complexity').count()
+    count_com = all_cards.filter(category='Others').count()
     counts.append(count_com)
     return counts
 

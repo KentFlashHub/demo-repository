@@ -9,15 +9,15 @@
 	    <div class="row pt-md-4">
 	        <div class="col-md-12">
 	            <div class="blog-entry ftco-animate d-md-flex">
-	                <a href="#" class="img img-2" style="background-image: url({% static 'images/' %}{{card.category}}1.jpeg );"></a>
+	                <a href="#" class="img img-2" style="background-image: url({% static 'images/' %}{{card.category}}1.gif );"></a>
 	                <div class="text text-2 pl-md-4">
-	                  <h5 class="mb-2"><a href="#" style="color: rgba(0, 0, 0, 0.8);"><strong>{{ card.front }}</strong></a></h5>
+	                  <h5 class="mb-2"><a href="#" style="color: #AEDAA3;"><strong>{{ card.front }}</strong></a></h5>
 
 	                  <p class="mb-4">{{ card.back }}.</p>
 	                  <p>
 	                  	<a href="{% url 'mark_liked' card.id %}" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
 	                  	&nbsp &nbsp &nbsp 
-	                  	<a href="{% url 'edit_card' card.id %}" class="btn-custom">Edit Card <span class="ion-ios-arrow-forward"></span></a>
+	                  	<a href="{% url 'edit_card' card.id %}" class="btn-custom"><strong>Edit Card</strong> <span class="ion-ios-arrow-forward"></span></a>
 	                  </p>
 	                </div>
 	            </div>

@@ -36,11 +36,13 @@
 		<!-- COLORLIB-ASIDE - CONTENT LEFT -->
         <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
         <aside id="colorlib-aside" role="complementary" class="js-fullheight">
+            <h1><span class='green-text' style='color:#5BC36E'>F</span>lash<span class='green-text' style='color:#5BC36E'>H</span>ub</h1>
+
             <nav id="colorlib-main-menu" role="navigation">
                 <ul>
-                    <li class="colorlib-active"><a href="{% url 'home' %}">tram</a></li>
-                    <li><a href="{% url 'add_card' %}">Add Card</a></li>
-                    <li><a href="{% url 'learn' %}">Learn</a></li>
+                    <li class="colorlib-active"><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'add_card' %}">Create Card</a></li>
+                    <li><a href="{% url 'learn' %}">Learn Card</a></li>
                     {% if user.is_authenticated %}
                         <li><span>{{user.username}}&nbsp</span>><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
@@ -50,9 +52,8 @@
             </nav>
 
             <div class="colorlib-footer">
-                <h1 id="colorlib-logo" class="mb-2"><a href="{% url 'home' %}" style="background-image: url({% static 'images/image_1.jpg' %});">Flshcrd <span>Maker</span></a></h1>
                 <div class="mb-4">
-                    <h3>Subscribe for newsletter</h3>
+                    <h3>Follow FlashHub to get more updates</h3>
                     <form action="#" class="colorlib-subscribe-form">
                         <div class="form-group d-flex">
                             <div class="icon"><span class="icon-paper-plane"></span></div>
@@ -60,9 +61,9 @@
                         </div>
                     </form>
                 </div>
-                <!-- <p class="pfooter"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | made by <i class="icon-heart" aria-hidden="true"></i> by <a href="FlashHub" target="_blank">FlashHub</a>
-      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p> -->
+                    <p class="pfooter">
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> | made <i class="icon-heart" aria-hidden="true"></i> by <a href="https://kentstate.edu" target="_blank">FlashHub</a>
+                    </p>
             </div> 
         </aside> 
 
@@ -79,8 +80,8 @@
                 </div>
 
                 <!-- CONTENT Right -->
-                <div class="col-xl-4 sidebar ftco-animate bg-light pt-5">
-                </div>
+                <!-- <div class="col-xl-4 sidebar ftco-animate bg-light pt-5">
+                </div> -->
 
             </div>
         </div>

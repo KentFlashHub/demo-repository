@@ -10,11 +10,11 @@
 	<div class="row pt-md-4">
         <div class="col-md-12">
             <div class="blog-entry ftco-animate d-md-flex">
-                <div class="form-group">
+                <div class="form-flashcard">
 					<form method="POST" action="">
 						{% csrf_token %}
 						{{ form|crispy }}
-						<input class="btn btn-primary" type="submit" name="Submit" value="Submit">
+						<input class="btn btn-primary" type="submit" name="Submit" value="Edit Card">
 					</form>
 				</div>
 				

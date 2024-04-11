@@ -3,6 +3,7 @@ import os
 
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # SECURITY WARNING: keep the secret key used in production secret!

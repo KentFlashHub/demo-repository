@@ -125,13 +125,17 @@ def search_keywords(request):
 # learn with flashcards
 def learn(request):
     if request.user.is_authenticated:
-        all_cards = FlashCard.objects.filter(creator=request.user.id)
+        all_cards = FlashCard.objects.filter(creator=request.user.id, known=0)
     else:
         all_cards = FlashCard.objects.all()
-    cards = all_cards.filter(known=0)
-    cards = sorted(cards.order_by('likes'), key=lambda x: random.random())
-    context = {'card': cards[0]}
-    return render(request, 'flashcards/learn.html', context)
+
+    if all_cards.exists():
+        card = all_cards.order_by('?').first()
+        context = {'card': card}
+        return render(request, 'flashcards/learn.html', context)
+    else:
+        messages.info(request, "No cards to learn. Add some cards!")
+        return redirect('home')
 
 
 # mark a card as known

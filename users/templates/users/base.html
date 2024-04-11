@@ -44,7 +44,12 @@
                     <li><a href="{% url 'add_card' %}">Create Card</a></li>
                     <li><a href="{% url 'learn' %}">Learn Card</a></li>
                     {% if user.is_authenticated %}
-                        <li><span>{{user.username}}&nbsp</span>><a href="{% url 'logout' %}">Logout</a></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-button" style="background: none; color: rgba(0,0,0,0.7); font-weight: inherit;border: none; padding: 0; margin: 0; font-family: inherit; font-size: inherit; cursor: pointer;">Logout</button>
+                            </form>
+                        </li>
                     {% else %}
                         <li><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}

@@ -8185,52 +8185,10 @@ a {
   overflow-y: hidden;
   z-index: 1001;
   background: #fff;
-  /* -moz-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -ms-transition: all 0.5s ease; */
+  
   transition: all 0.5s ease;
   border-right: 2px solid #e6efdd; }
-  /* @media (min-width: 992px) {
-    #colorlib-aside {
-      width: 25%; } }
-  @media (max-width: 991.98px) {
-    #colorlib-aside {
-      width: 320px;
-      -moz-transform: translateX(-320px);
-      -webkit-transform: translateX(-320px);
-      -ms-transform: translateX(-320px);
-      -o-transform: translateX(-320px);
-      transform: translateX(-320px);
-      padding-top: 2em;
-      background: rgba(0, 0, 0, 0.04); } } */
-  /* #colorlib-aside #colorlib-logo {
-    display: block;
-    width: 100%;
-    font-weight: normal;
-    font-size: 74px;
-    line-height: .8;
-    font-family: "Abril Fatface", cursive; }
-    @media (max-width: 1199.98px) {
-      #colorlib-aside #colorlib-logo {
-        font-size: 62px; } }
-    #colorlib-aside #colorlib-logo span {
-      display: block; }
-    @media (max-width: 991.98px) {
-      #colorlib-aside #colorlib-logo {
-        margin-bottom: 20px; } }
-    #colorlib-aside #colorlib-logo a {
-      display: inline-block;
-      text-align: left;
-      color: #000000;
-      overflow: hidden;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      -moz-background-clip: text;
-      -moz-text-fill-color: transparent;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center center; } */
+  
   #colorlib-aside #colorlib-main-menu ul {
     margin: 0;
     padding: 0; }

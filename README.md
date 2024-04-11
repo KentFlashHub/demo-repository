@@ -15,6 +15,7 @@ print(get_random_secret_key())
 python manage.py runserver
 
 ### Download Sqlite in Extension
+run shift+command+p to open db.sqlite
 run sqlite3 db.sqlite3 (to enter sql query)
 
 Example:

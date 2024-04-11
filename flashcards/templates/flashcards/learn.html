@@ -33,8 +33,8 @@
             <nav id="colorlib-main-menu" role="navigation">
                 <ul>
                     <li class="colorlib-active"><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'add_card' %}">Add Card</a></li>
-                    <li><a href="{% url 'learn' %}">Learn</a></li>
+                    <li><a href="{% url 'add_card' %}">Create Card</a></li>
+                    <li><a href="{% url 'learn' %}">Learn Card</a></li>
                     {% if user.is_authenticated %}
                         <li><span>{{user.username}}&nbsp</span>><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}

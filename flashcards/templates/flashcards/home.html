@@ -4,29 +4,41 @@
 {% load static %}
 
 {% block content %}
+	{% if not user.is_authenticated %}
+		<a href="#" class="home" style="display: block; width: 400px; height: 450px; margin: auto; background-image: url({% static 'images/logoimg.png' %}); background-size: contain; background-position: center; background-repeat: no-repeat;"></a>
+		<br>
+		<h2>Free Online Flashcards for students - Easy to use</h2>
+		<h4>Upgrade your learning with FlashHub</h4>
+		<hr class="hr-style-1">
+	{% endif %}
 
 	{% for card in page_obj %}           
-	    <div class="row pt-md-4">
-	        <div class="col-md-12">
-	            <div class="blog-entry ftco-animate d-md-flex">
-	                <a href="#" class="img img-2" style="background-image: url({% static 'images/' %}{{card.category}}1.gif );"></a>
-	                <div class="text text-2 pl-md-4">
-	                  <h5 class="mb-2"><a href="#" style="color: #AEDAA3;"><strong>{{ card.front }}</strong></a></h5>
-
-	                  <p class="mb-4">{{ card.back }}.</p>
-	                  <p>
-	                  	<a href="{% url 'mark_liked' card.id %}" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-	                  	&nbsp &nbsp &nbsp 
-	                  	<a href="{% url 'edit_card' card.id %}" class="btn-custom"><strong>Edit Card</strong> <span class="ion-ios-arrow-forward"></span></a>
-	                  </p>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	    <hr>
+	   
+		<div class="container">
+					<div class="card mb-3 custom-card">
+						<div class="row no-gutters">
+							<div class="col-md-4">
+								<img src="{% static 'images/' %}{{ card.category }}1.gif" class="card-img" alt="{{ card.front }}">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body">
+									<h5 class="card-title" style="color: #AEDAA3;"><strong>{{ card.front }}</strong></h5>
+									<p class="card-text">{{ card.back }}.</p>
+									<p class="card-text">
+										<a href="{% url 'mark_liked' card.id %}" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+										&nbsp;
+										<a href="{% url 'edit_card' card.id %}" class="btn-custom"><strong>Edit Card</strong></a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+		</div>
+		<hr class="hr-style-2">
+	    
 	{% endfor %}
 
-
+	
     <div class="row">
       <div class="col">
         <div class="block-27">

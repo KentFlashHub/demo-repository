@@ -32,12 +32,13 @@
 			
             <nav id="colorlib-main-menu" role="navigation">
                 <ul>
-                    <li class="colorlib-active"><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'add_card' %}">Create Card</a></li>
-                    <li><a href="{% url 'learn' %}">Learn Card</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'home' %}colorlib-active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'add_card' %}colorlib-active{% endif %}"><a href="{% url 'add_card' %}">Create Card</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'learn' %}colorlib-active{% endif %}"><a href="{% url 'learn' %}">Learn Card</a></li>
                     {% if user.is_authenticated %}
 						<li>
-							<form action="{% url 'logout' %}" method="post">
+							<span>{{ user.username }}&nbsp;></span>
+							<form action="{% url 'logout' %}" method="post" class="inline-form">
 								{% csrf_token %}
 								<button type="submit" class="logout-button" style="background: none; color: rgba(0,0,0,0.7); border: none; padding: 0; margin: 0; font-weight: inherit;cursor: pointer;">Logout</button>
 							</form>
@@ -72,7 +73,8 @@
 
             	<!-- CONTENT Middle -->
             	<div class="col-xl-8 py-5 px-md-5">
-	            	{% block content %}
+					
+					{% block content %}
 		    		{% endblock %}
 		    	</div>
 

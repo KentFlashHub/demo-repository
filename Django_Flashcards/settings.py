@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'flashcards.apps.FlashcardsConfig',
     'crispy_forms',
     'users.apps.UsersConfig',
+    'classes.apps.ClassesConfig'
 ]
 
 MIDDLEWARE = [

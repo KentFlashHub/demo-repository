@@ -35,3 +35,6 @@ def create(request):
     else:
         return render(request, 'classes/create.html', {'form': ClassForm})
 
+@login_required
+def view(request, id):
+    return render(request, 'classes/base.html')

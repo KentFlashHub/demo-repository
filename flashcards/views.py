@@ -6,6 +6,7 @@ import csv
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 # -------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ def home(request):
     counts = get_counts(all_cards)
     popular_cards = all_cards.order_by('-likes')[:3]
 
-    context = {'page_obj':page_obj, 'counts':counts, 'popular_cards':popular_cards }
+    context = {'page_obj':page_obj, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
     return render(request, 'flashcards/home.html', context)
 
 
@@ -79,7 +80,7 @@ def add_card(request):
 
     counts = get_counts(all_cards)
     popular_cards = all_cards.order_by('-likes')[:3]
-    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards }
+    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
     return render(request, 'flashcards/add_card.html', context)
 
 
@@ -102,8 +103,21 @@ def edit_card(request, id):
 
     counts = get_counts(all_cards)
     popular_cards = all_cards.order_by('-likes')[:3]
-    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards }
+    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
     return render(request, 'flashcards/edit_card.html', context)
+
+def user_profile(request, username):
+    user = User.objects.get(username=username)
+    cards = FlashCard.objects.filter(creator=user)
+    counts = get_counts(cards)
+    popular_cards = cards.order_by('-likes')[:3]
+    paginator = Paginator(cards, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'page_obj':page_obj, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
+    print(context)
+    return render(request, 'flashcards/user_profile.html', context)
 
 
 # search keywords - top 20 results
@@ -170,6 +184,10 @@ def dump_csv(request):
 
     return response
 
-
-
-    
+def user_list():
+    users = User.objects.filter(is_staff= False)
+    res = [
+        {'username': user.username, 'email': user.email, 'first_name': user.first_name, 'last_name': user.last_name, 'image': f"images/u{random.randint(1, 9)}.png"}
+        for user in users
+    ]
+    return res

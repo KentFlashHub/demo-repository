@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path, include
 from users import views as user_views
 from django.contrib.auth import views as auth_views
-# from flashcards import views as flashcard_views
+from flashcards import views as flashcard_views
 
 urlpatterns = [
     
@@ -13,5 +13,6 @@ urlpatterns = [
         redirect_authenticated_user=True), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('', include('flashcards.urls')),
-
+    path('users/', include('allauth.urls')),
+    path('flashcards/', include('flashcards.urls')),
 ]

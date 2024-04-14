@@ -93,15 +93,9 @@
 					<div class="sidebar-box ftco-animate">
 						<h3 class="sidebar-heading">Users Cloud</h3>
 						<ul class="tagcloud">
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u1.png' %});"></a>
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u2.png' %});"></a>
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u3.png' %});"></a>
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u4.png' %});"></a>
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u5.png' %});"></a>
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u6.png' %});"></a>
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u7.png' %});"></a>
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u8.png' %});"></a>
-						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u9.png' %});"></a>
+						  {% for user in user_list %}
+						  	<a href="{% url 'user_profile' user.username %}" class="tag-cloud-link" style="background-image: url({% static user.image %});"></a>
+						  {% endfor %}
 						</ul>
 					  </div>
                     

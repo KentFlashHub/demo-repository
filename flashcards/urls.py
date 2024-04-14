@@ -13,4 +13,5 @@ urlpatterns = [
     path('mark_known/<id>', views.mark_known, name='mark_known'),
     path('mark_liked/<id>', views.mark_liked, name='mark_liked'),
     path('dump_csv', views.dump_csv, name='dump_csv'),
+    path('user_profile/<username>', views.user_profile, name='user_profile'),
 ]

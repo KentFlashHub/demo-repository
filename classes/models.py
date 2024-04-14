@@ -7,4 +7,4 @@ class Class(models.Model):
 	admin = models.ForeignKey(User, on_delete=models.SET_NULL, null=True) # no cascade, class will be left unmanaged
 
 	def __str__(self):
-		return self.front
+		return self.prefixed_id + ' ' + self.name

@@ -19,4 +19,3 @@ class ClassNameForm(forms.ModelForm):
         required=True,  
         widget=forms.Select(attrs={'class': 'form-control'})
     )
-    

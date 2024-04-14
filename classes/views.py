@@ -5,14 +5,21 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .forms import *
-from .models import Class
+from .models import Class, Enrollment
 
 @login_required
 def enroll(request):
     if request.method == 'POST':
         form = ClassNameForm(request.POST)
-        print(form['name'].value())
-        return b'hry'
+        # print(f"The ID is: {form['name'].value()}")
+        # print(f"The user is: {request.user}")
+
+        class_instance = Class.objects.get(pk=form['name'].value())
+
+        enroll = Enrollment(course_id = class_instance, user_id = request.user)
+        enroll.save()
+
+        return redirect('/courses/' + form['name'].value())
     else:
         context = {'form': ClassNameForm}
         return render(request, 'classes/enroll.html', context)

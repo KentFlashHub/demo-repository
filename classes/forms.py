@@ -15,7 +15,7 @@ class ClassNameForm(forms.ModelForm):
 
     name = forms.ModelChoiceField(
         queryset=Class.objects.all(),
-        to_field_name='name',
+        to_field_name='id',
         required=True,  
         widget=forms.Select(attrs={'class': 'form-control'})
     )

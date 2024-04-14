@@ -11,6 +11,7 @@ from .models import Class
 def enroll(request):
     if request.method == 'POST':
         form = ClassNameForm(request.POST)
+        print(form['name'].value())
         return b'hry'
     else:
         context = {'form': ClassNameForm}
@@ -26,3 +27,4 @@ def create(request):
             return render(request, 'classes/create.html', {'form': form})
     else:
         return render(request, 'classes/create.html', {'form': ClassForm})
+

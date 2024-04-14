@@ -8,3 +8,7 @@ class Class(models.Model):
 
 	def __str__(self):
 		return self.prefixed_id + ' ' + self.name
+
+class Enrollment(models.Model):
+	course_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+	user_id = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -37,4 +37,6 @@ def create(request):
 
 @login_required
 def view(request, id):
-    return render(request, 'classes/base.html')
+    course = Class.objects.get(pk=id)
+    context = {'course':course}
+    return render(request, 'classes/course.html', context)

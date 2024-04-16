@@ -17,7 +17,7 @@
 	</div>
 </form>
 
-<form class="colorlib-subscribe-form" action="/add_card">
+<form class="colorlib-subscribe-form" action="/courses/{{ course.pk }}/add_card">
 	{% csrf_token %}
 	<input type='hidden' name='course_id' value='{{ course.pk }}'/>
 	<div class = "form-group d-flex">

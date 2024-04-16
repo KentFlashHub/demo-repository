@@ -9,11 +9,11 @@
 	
 <h2>{{ course.prefixed_id }} {{ course.name }}</h2>
 
-<form class="colorlib-subscribe-form" method='post'>
+<form class="colorlib-subscribe-form" action="/courses/{{ course.pk }}/learn">
 	{% csrf_token %}
 	<input type='hidden' name='course_id' value='{{ course.pk }}'/>
 	<div class = "form-group d-flex">
-		<button class="btn-dark">Unregister from Course</button>
+		<button class="btn-dark">Study Flashcards</button>
 	</div>
 </form>
 
@@ -22,13 +22,6 @@
 	<input type='hidden' name='course_id' value='{{ course.pk }}'/>
 	<div class = "form-group d-flex">
 		<button class="btn-dark">Add Flashcard</button>
-	</div>
-</form>
-
-<form class="colorlib-subscribe-form">
-	{% csrf_token %}
-	<div class = "form-group d-flex">
-		<button class="btn-dark" enabled="false">Upload Files</button>
 	</div>
 </form>
 

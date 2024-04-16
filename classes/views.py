@@ -40,3 +40,11 @@ def view(request, id):
     course = Class.objects.get(pk=id)
     context = {'course':course}
     return render(request, 'classes/course.html', context)
+
+@login_required
+def my_courses(request):
+    enrollments = Enrollment.objects.filter(user_id=request.user)
+    courses = []
+    for course in enrollments:
+        courses.append(course.course_id)
+    return render(request, 'classes/my_courses.html', {'course_list': courses})

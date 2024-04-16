@@ -9,6 +9,7 @@ from classes import views as classes_views
 urlpatterns = [
     
     path('admin/', admin.site.urls),
+    path('my_courses', classes_views.my_courses, name='my_courses'),
     path('courses/enroll/', classes_views.enroll, name='enroll_course'),
     path('courses/enroll/create/', classes_views.create, name='create_course'),
     path('courses/<id>', classes_views.view, name='view_course'),

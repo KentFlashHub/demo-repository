@@ -1,5 +1,5 @@
 db.sqlite3
-migrations/
+# migrations/
 __pycache__/
 venv/
 media/

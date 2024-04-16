@@ -10,7 +10,7 @@ from .models import Class, Enrollment
 @login_required
 def enroll(request):
     if request.method == 'POST':
-        form = ClassNameForm(request.POST)
+        form = ClassNameForm(request.POST, queryset=Class.objects.all())
         # print(f"The ID is: {form['name'].value()}")
         # print(f"The user is: {request.user}")
 
@@ -27,7 +27,9 @@ def enroll(request):
             if enrollment.user_id == request.user:
                 filter_courses.append(enrollment.course_id)
         queryset = [x for x in Class.objects.all() if x not in filter_courses]
-        queryset = Class.objects.filter(id__in=queryset)
+        queryset = [x.pk for x in queryset]
+        print(queryset)
+        queryset = Class.objects.filter(pk__in=queryset)
         context = {'form': ClassNameForm(queryset=queryset)}
         return render(request, 'classes/enroll.html', context)
 

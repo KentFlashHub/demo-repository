@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import FlashCard
+from classes.models import Class
 from .forms import FlashCardForm
 import random
 import csv
@@ -71,6 +72,7 @@ def add_card(request):
         if form.is_valid():
             new_card = form.save(commit=False)
             new_card.creator = request.user
+            new_card.course = Class.objects.get(pk=request.POST.get('course_id'))
             new_card.save()
             messages.success(request, f'Flashcard added!')
             return redirect('home')
@@ -79,7 +81,7 @@ def add_card(request):
 
     counts = get_counts(all_cards)
     popular_cards = all_cards.order_by('-likes')[:3]
-    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards }
+    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards, 'course_id': request.GET.get('course_id')}
     return render(request, 'flashcards/add_card.html', context)
 
 

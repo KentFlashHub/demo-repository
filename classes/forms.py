@@ -14,8 +14,13 @@ class ClassNameForm(forms.ModelForm):
         fields = ['name']
 
     name = forms.ModelChoiceField(
-        queryset=Class.objects.all(),
+        queryset = Class.objects.all(),
         to_field_name='id',
         required=True,  
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+
+    def __init__(self, *args,**kwargs):
+        queryset = kwargs.pop('queryset')
+        super(forms.ModelForm, self).__init__(*args, **kwargs)
+        self.fields['name'].queryset = queryset

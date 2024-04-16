@@ -21,7 +21,14 @@ def enroll(request):
 
         return redirect('/courses/' + form['name'].value())
     else:
-        context = {'form': ClassNameForm}
+        enrollments = Enrollment.objects.filter(user_id = request.user)
+        filter_courses = []
+        for enrollment in enrollments:
+            if enrollment.user_id == request.user:
+                filter_courses.append(enrollment.course_id)
+        queryset = [x for x in Class.objects.all() if x not in filter_courses]
+        queryset = Class.objects.filter(id__in=queryset)
+        context = {'form': ClassNameForm(queryset=queryset)}
         return render(request, 'classes/enroll.html', context)
 
 @login_required

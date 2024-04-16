@@ -62,7 +62,7 @@ def get_cards_by_category(request, category):
 
 # add flashcard
 @login_required
-def add_card(request):
+def add_card(request, course_id):
     if request.user.is_authenticated:
         all_cards = FlashCard.objects.filter(creator=request.user.id)
     else:
@@ -72,10 +72,10 @@ def add_card(request):
         if form.is_valid():
             new_card = form.save(commit=False)
             new_card.creator = request.user
-            new_card.course = Class.objects.get(pk=request.POST.get('course_id'))
+            new_card.course = Class.objects.get(pk=course_id)
             new_card.save()
             messages.success(request, f'Flashcard added!')
-            return redirect('home')
+            return redirect('/courses/' + course_id)
     else:
         form = FlashCardForm()
 

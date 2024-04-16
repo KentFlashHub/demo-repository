@@ -10,7 +10,7 @@ from .models import Class, Enrollment
 @login_required
 def enroll(request):
     if request.method == 'POST':
-        form = ClassNameForm(request.POST, Class.objects.all())
+        form = ClassNameForm(request.POST, queryset=Class.objects.all())
         # print(f"The ID is: {form['name'].value()}")
         # print(f"The user is: {request.user}")
 

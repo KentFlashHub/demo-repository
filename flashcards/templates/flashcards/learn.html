@@ -34,7 +34,6 @@
                 <ul>
                     <li class="colorlib-active"><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'add_card' %}">Create Card</a></li>
-                    <li><a href="{% url 'learn' %}">Learn Card</a></li>
                     {% if user.is_authenticated %}
                         <li><span>{{user.username}}&nbsp</span>><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
@@ -90,7 +89,7 @@
                                 <i class="fa fa-check"></i>
                                 I Know It 
                             </a>
-                            <a href="{% url 'learn' %}" class="btn btn-primary">
+                            <a href="./learn" class="btn btn-primary">
                                 Next Card
                                 <i class="fa fa-arrow-right"></i>
                             </a>

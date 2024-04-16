@@ -125,11 +125,13 @@ def search_keywords(request):
 
 
 # learn with flashcards
-def learn(request):
-    if request.user.is_authenticated:
-        all_cards = FlashCard.objects.filter(creator=request.user.id, known=0)
-    else:
-        all_cards = FlashCard.objects.all()
+def learn(request, course_id):
+    course = Class.objects.get(pk=course_id)
+    all_cards = FlashCard.objects.filter(course=course)
+    # if request.user.is_authenticated:
+    #     all_cards = FlashCard.objects.filter(creator=request.user.id, known=0)
+    # else:
+    #     all_cards = FlashCard.objects.all()
 
     if all_cards.exists():
         card = all_cards.order_by('?').first()

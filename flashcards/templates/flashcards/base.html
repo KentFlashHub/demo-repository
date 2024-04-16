@@ -34,7 +34,6 @@
                 <ul>
                     <li class="{% if request.resolver_match.url_name == 'home' %}colorlib-active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
                     <li class="{% if request.resolver_match.url_name == 'add_card' %}colorlib-active{% endif %}"><a href="{% url 'add_card' %}">Create Card</a></li>
-                    <li class="{% if request.resolver_match.url_name == 'learn' %}colorlib-active{% endif %}"><a href="{% url 'learn' %}">Learn Card</a></li>
                     {% if user.is_authenticated %}
 						<li>
 							<span>{{ user.username }}&nbsp;></span>

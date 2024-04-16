@@ -3,3 +3,6 @@ migrations/
 __pycache__/
 venv/
 media/
+!.gitignore
+*.pyc
+db.sqlite3

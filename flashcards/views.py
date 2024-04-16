@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import FlashCard
+from classes.models import Class
 from .forms import FlashCardForm
 import random
 import csv
@@ -62,7 +63,7 @@ def get_cards_by_category(request, category):
 
 # add flashcard
 @login_required
-def add_card(request):
+def add_card(request, course_id):
     if request.user.is_authenticated:
         all_cards = FlashCard.objects.filter(creator=request.user.id)
     else:
@@ -72,15 +73,16 @@ def add_card(request):
         if form.is_valid():
             new_card = form.save(commit=False)
             new_card.creator = request.user
+            new_card.course = Class.objects.get(pk=course_id)
             new_card.save()
             messages.success(request, f'Flashcard added!')
-            return redirect('home')
+            return redirect('/courses/' + course_id)
     else:
         form = FlashCardForm()
 
     counts = get_counts(all_cards)
     popular_cards = all_cards.order_by('-likes')[:3]
-    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
+    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list(), 'course_id': request.GET.get('course_id')}
     return render(request, 'flashcards/add_card.html', context)
 
 
@@ -137,11 +139,13 @@ def search_keywords(request):
 
 
 # learn with flashcards
-def learn(request):
-    if request.user.is_authenticated:
-        all_cards = FlashCard.objects.filter(creator=request.user.id, known=0)
-    else:
-        all_cards = FlashCard.objects.all()
+def learn(request, course_id):
+    course = Class.objects.get(pk=course_id)
+    all_cards = FlashCard.objects.filter(course=course)
+    # if request.user.is_authenticated:
+    #     all_cards = FlashCard.objects.filter(creator=request.user.id, known=0)
+    # else:
+    #     all_cards = FlashCard.objects.all()
 
     if all_cards.exists():
         card = all_cards.order_by('?').first()

@@ -1,5 +1,8 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -7,8 +10,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i7hlz1gmdkd-m)_y+f4%@=3@0z3+-kk51)bp+q2$i)!-q0_x4i'
-SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -69,6 +71,10 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
         'OAUTH_CLIENT_CLASS': 'users.views.CustomGoogleOAuth2Adapter',
+        'APP': {
+            'client_id': os.getenv("GOOGLE_OAUTH2_CLIENT_ID"),
+            'secret': os.getenv("GOOGLE_OAUTH2_CLIENT_SECRET"),
+        }
     }
 }
 

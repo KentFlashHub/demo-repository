@@ -5,3 +5,4 @@ django-heroku==0.3.1
 dj-database-url==0.5.0
 crispy_bootstrap4
 django-allauth
+python-dotenv==1.0.0

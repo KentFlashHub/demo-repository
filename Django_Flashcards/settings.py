@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'files',
+    'social'
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -89,6 +91,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Django_Flashcards.wsgi.application'
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 # Database 
 DATABASES = {
@@ -136,13 +139,13 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = '/images/'
+MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, 'static')
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

@@ -1,20 +1,13 @@
-import random
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm
 from django.shortcuts import redirect
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-
-from django.http import HttpResponseRedirect
-from Django_Flashcards.settings import CLIENT_ID
-
 from django.shortcuts import redirect
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.exceptions import ImmediateHttpResponse
-from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+
+from files.models import Directory
 
 class CustomGoogleOAuth2Adapter(DefaultSocialAccountAdapter):
     def pre_social_login(self, request, sociallogin):
@@ -25,6 +18,10 @@ class CustomGoogleOAuth2Adapter(DefaultSocialAccountAdapter):
             user.username = user.email.split('@')[0]
             user.first_name = sociallogin.account.extra_data['given_name']
             user.save()
+            
+            # create a directory for the user
+            Directory.objects.create(user=user, name=user.username, parent_directory=None)
+
         else:
             sociallogin.user = User.objects.get(email=sociallogin.account.extra_data['email'])
 

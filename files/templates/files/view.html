@@ -1,0 +1,59 @@
+
+{% extends "files/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<h2>Directories</h2>
+<ul>
+  {% for directory in directories %}
+    <li><a href="{% url 'view' directory.full_path %}">{{ directory.name }}</a></li>
+  {% endfor %}
+</ul>
+
+{% if user.is_authenticated and user.username == owner %}
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ directory_form.as_p }}
+        <button type="submit" class="btn btn-primary" name="directory_creation_form" >Create Directory</button>
+    </form>
+{% endif %}
+
+<br /><hr /><br />
+<h2>Files</h2>
+<ul>
+  {% for file in files %}
+    <li><a href="#" data-toggle="modal" data-target="#fileModal{{ forloop.counter }}">{{ file.name }}</a></li>
+    <!-- File Modal -->
+    <div class="modal fade" id="fileModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel{{ forloop.counter }}" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="fileModalLabel{{ forloop.counter }}">{{ file.name }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <span>{{ file.url }}</span>
+            <iframe src="{% url 'serve_file' file.id %}" width="100%" height="800px"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</ul>
+
+{% if user.is_authenticated and user.username == owner %}
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ file_form.as_p }}
+        <button type="submit" class="btn btn-primary" name="file_upload_form" >Upload</button>
+    </form>
+{% endif %}
+
+{% if parent_dir != '' %}
+  <a href="{% url 'view' parent_dir %}">Back to Parent Directory</a>
+{% endif %}
+
+{% endblock %}

@@ -19,6 +19,12 @@
     <link rel="stylesheet" href="{% static '/css/style.css' %}">
     <link rel="stylesheet" href="{% static '/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- Include Bootstrap CSS -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -36,6 +42,7 @@
                     <li class="{% if request.resolver_match.url_name == 'add_card' %}colorlib-active{% endif %}"><a href="{% url 'add_card' %}">Create Card</a></li>
                     <li class="{% if request.resolver_match.url_name == 'learn' %}colorlib-active{% endif %}"><a href="{% url 'learn' %}">Learn Card</a></li>
                     {% if user.is_authenticated %}
+						<li class="{% if request.resolver_match.url_name == 'view' %}colorlib-active{% endif %}"><a href="{% url 'view' user.username %}">Files</a></li>
 						<li>
 							<span>{{ user.username }}&nbsp;></span>
 							<form action="{% url 'logout' %}" method="post" class="inline-form">
@@ -44,6 +51,7 @@
 							</form>
 						</li>
                     {% else %}
+						<li class="{% if request.resolver_match.url_name == 'view' %}colorlib-active{% endif %}"><a href="{% url 'files'%}">Files</a></li>
                         <li><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}
                 </ul>

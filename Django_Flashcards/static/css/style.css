@@ -1,3 +1,108 @@
+.login-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.login-container .login-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+.google-btn {
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.info-text {
+  /* margin-bottom: 20px; */
+  color: #666;
+}
+
+.google-btn:hover {
+  background-color: #357ae8;
+}
+.sign-up {
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+.text-muted {
+  color: #888;
+}
+
+
+.custompdf{
+  margin-top: 30px;
+  margin-bottom: 80px;
+  margin:auto;
+  display: flex; 
+  align-items: center; 
+  justify-content: start; 
+  border: none;
+  border-radius: 5px;
+  padding: 30px; 
+  color: #fff;
+  background-color: #AEDAA3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s;
+  text-decoration: none;
+  cursor: pointer;
+  width: 550px; 
+  font-size: 20px; 
+  margin-bottom: 10px; 
+}
+.custompdf:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.form-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 100px; 
+  align-items: flex-end; 
+  justify-content: flex-start; 
+}
+
+.form-inline label:focus, 
+.form-inline input,
+.form-inline select:focus,
+.form-inline button {
+  flex: 1; 
+  width: 101px;
+}
+
+.form-inline .btn {
+ 
+  cursor: pointer;
+  border-radius: 5px;
+  height: 38px;
+  font-weight: 700;
+  font-size: 14px;
+ 
+}
+
+.directory-form input[type="file"],
+.file-form input[type="file"] {
+  height: 35px; 
+}
+
+
+.table-2 .table {
+  margin-top: 30px;
+  border: 3px solid #faf7fc;
+  width: 100%;
+  padding-left: 50px;
+  /* text-align: left; */
+  /* margin: 50px; */
+}
 
 
 *,
@@ -102,6 +207,9 @@ h4 {
   background-color: #fff;
 }
 
+
+
+
 ol,
 ul,
 dl {
@@ -145,6 +253,7 @@ sup {
   top: -.5em; }
 
 a {
+  font-size: 16px;
   color: #00e585;
   text-decoration: none;
   background-color: transparent; }
@@ -369,6 +478,7 @@ h5, .h5 {
   border-radius: 5px; }
 
   .hr-style-2{
+    
     margin-top: 0.5rem;
     margin-bottom: 1.2rem;
     /* border: 2px; */
@@ -468,6 +578,7 @@ pre {
   overflow-y: scroll; }
 
 .container {
+  
   width: 100%;
   padding-top: 15px;
   padding-right: 15px;
@@ -1567,7 +1678,7 @@ pre {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.075); }
 
-@media (max-width: 575.98px) {
+/* @media (max-width: 575.98px) {
   .table-responsive-sm {
     display: block;
     width: 100%;
@@ -1601,7 +1712,7 @@ pre {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch; }
     .table-responsive-xl > .table-bordered {
-      border: 0; } }
+      border: 0; } } */
 
 .table-responsive {
   display: block;
@@ -3790,16 +3901,24 @@ input[type="button"].btn-block {
 .card {
   border-radius: 20px;
   outline: 0;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  /* box-shadow: 0 0 20px rgba(0,0,0,0.3); */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
+	transition: all 0.3s; 
   background-color: #fff;
   position: relative;
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
   background-color: #fff;
-  width: 70%;
+  width: 90%;
   margin: auto;
 }
+
+.card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
+  transform: translateY(-2px); 
+}
+
   .card > hr {
     margin-right: 0;
     margin-left: 0; }
@@ -3813,6 +3932,7 @@ input[type="button"].btn-block {
 .card-body {
   flex: 1 1 auto;
   padding: 1rem; 
+
 }
 
 .card-title {
@@ -3823,7 +3943,10 @@ input[type="button"].btn-block {
   margin-top: -0.375rem;
   margin-bottom: 0; 
 }
-
+.card-text{
+  max-height: 50px;
+  overflow: hidden;
+}
 .card-text:last-child {
   margin-bottom: 0; 
 }
@@ -8208,15 +8331,20 @@ a {
   border-right: 2px solid #e6efdd; }
   
   #colorlib-aside #colorlib-main-menu ul {
+    
     margin: 0;
     padding: 0; }
     #colorlib-aside #colorlib-main-menu ul li {
+      
       margin: 0 0 10px 0;
       padding: 0;
       list-style: none;
       font-size: 18px;
       font-weight: 500; }
       #colorlib-aside #colorlib-main-menu ul li a {
+      
+        font-size: 20px;
+        font-weight: 400px;
         color: rgba(0, 0, 0, 0.7);
         text-decoration: none;
         position: relative;
@@ -8930,8 +9058,8 @@ textarea.form-control {
 
 .block-21 .blog-img {
   display: block;
-  height: 80px;
-  width: 80px; }
+  height: 70px;
+  width: 70px; }
   
 
 .block-21 .text {

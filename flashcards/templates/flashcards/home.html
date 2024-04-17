@@ -12,9 +12,11 @@
 		<hr class="hr-style-1">
 	{% endif %}
 
+	<hr class="hr-style-2" style="margin-top: 20px; margin-bottom: 20px;">
 	{% for item in items %}
 
 		{% if item.type == 'card' %}
+		
 			<div class="container">
 						<div class="card mb-3 custom-card">
 							<div class="row no-gutters">
@@ -35,14 +37,14 @@
 							</div>
 						</div>
 			</div>
-			<hr class="hr-style-2">
+			<hr class="hr-style-2" style="margin-top: 20px; margin-bottom: 20px;">
 		{% else %}
-			<li><a href="#" data-toggle="modal" data-target="#fileModal{{ forloop.counter }}">
-				<img src="{% static 'images/pdf.png' %}" alt="file" style="width: 20px; height: 20px;">
-				<br />
+			<a href="#" class="custompdf" data-toggle="modal" data-target="#fileModal{{ forloop.counter }}">
+				<img src="{% static 'images/pdf.png' %}" alt="file" style="width: 30px; height: 30px; margin-right: 10px;">
+				<!-- <br /> -->
 				{{ item.name }}
-			</a></li>
-			<hr class="hr-style-2">
+			</a>
+			
 			<!-- File Modal -->
 			<div class="modal fade" id="fileModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel{{ forloop.counter }}" aria-hidden="true">
 			<div class="modal-dialog modal-lg" role="document">
@@ -60,11 +62,12 @@
 				</div>
 			</div>
 			</div>
+			<hr class="hr-style-2" style="margin-top: 20px; margin-bottom: 20px;">
 		{% endif %}
 	    
 	{% endfor %}
 
-	
+	<!-- <hr class="hr-style-2" style="margin-top:0px"> -->
     <div class="row">
       <div class="col">
         <div class="block-27">

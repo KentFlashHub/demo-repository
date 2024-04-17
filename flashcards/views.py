@@ -29,6 +29,19 @@ def get_popular_cards(all_cards, n):
     popular_cards = all_cards.order_by('likes')[:n]
     return popular_cards
 
+def get_base_context(request):
+    user = request.user
+    if user.is_authenticated:
+        all_cards = FlashCard.objects.filter(creator=user.id)
+    else:
+        all_cards = FlashCard.objects.all()
+    counts = get_counts(all_cards)
+    popular_cards = get_popular_cards(all_cards, 3)
+    paginator = Paginator(all_cards, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return {'counts': counts, 'page_obj': page_obj, 'user_list': user_list(), 'popular_cards': popular_cards}
+
 # -------------------------------------------------------------------------------
 # home - show all cards 
 def home(request):
@@ -38,11 +51,6 @@ def home(request):
     else:
         all_cards = FlashCard.objects.all()
         all_files = File.objects.all()
-    paginator = Paginator(all_cards, 8)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    counts = get_counts(all_cards)
     popular_cards = [i for i in all_cards.order_by('-likes')[:10]]
     files = [i for i in all_files.order_by('-created_at')[:10]]
 
@@ -56,7 +64,8 @@ def home(request):
 
     lst = sorted(files + popular_cards, key=lambda x: random.randint(1,1000), reverse=True)
 
-    context = {'page_obj':page_obj, 'counts':counts, 'items':lst, 'user_list': user_list()}
+    context = get_base_context(request)
+    context['items'] = lst
     return render(request, 'flashcards/home.html', context)
 
 
@@ -71,17 +80,22 @@ def get_cards_by_category(request, category):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     counts = get_counts(all_cards)
-    popular_cards = all_cards.order_by('-likes')[:3]
-    context = {'page_obj':page_obj, 'counts':counts, 'popular_cards':popular_cards }
+    popular_cards = cards.order_by('-likes')[:3]
+    context = get_base_context(request)
+    context['popular_cards'] = popular_cards
+    context['page_obj'] = page_obj
+    context['counts'] = counts
+    
+    for card in cards:
+        card.type = "card"
+        
+    context['items'] = cards
+
     return render(request, 'flashcards/home.html', context)
 
 # add flashcard
 @login_required
 def add_card(request, course_id):
-    if request.user.is_authenticated:
-        all_cards = FlashCard.objects.filter(creator=request.user.id)
-    else:
-        all_cards = FlashCard.objects.all()
     if request.method == 'POST':
         form = FlashCardForm(request.POST)
         if form.is_valid():
@@ -93,10 +107,8 @@ def add_card(request, course_id):
             return redirect('/courses/' + course_id)
     else:
         form = FlashCardForm()
-
-    counts = get_counts(all_cards)
-    popular_cards = all_cards.order_by('-likes')[:3]
-    context = {'form':form, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list(), 'course_id': request.GET.get('course_id')}
+    context = get_base_context(request)
+    context['course_id'] = request.GET.get('course_id')
     return render(request, 'flashcards/add_card.html', context)
 
 
@@ -132,23 +144,19 @@ def user_profile(request, username):
     page_obj = paginator.get_page(page_number)
 
     context = {'page_obj':page_obj, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
-    print(context)
     return render(request, 'flashcards/user_profile.html', context)
 
 
 # search keywords - top 20 results
 def search_keywords(request):
-    if request.user.is_authenticated:
-        all_cards = FlashCard.objects.filter(creator=request.user.id)
-    else:
-        all_cards = FlashCard.objects.all()
     cards = FlashCard.objects.filter(front__contains=request.GET.get('keywords'))[:20]
     paginator = Paginator(cards, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    counts = get_counts(all_cards)
-    popular_cards = all_cards.order_by('-likes')[:3]
-    context = {'page_obj': page_obj, 'counts':counts, 'popular_cards':popular_cards}
+    context = get_base_context(request)
+    context['page_obj'] = page_obj
+    context['counts'] = get_counts(FlashCard.objects.filter(front__contains=request.GET.get('keywords')))
+    context['popular_cards'] = cards
     return render(request, 'flashcards/home.html', context)
 
 
@@ -156,14 +164,11 @@ def search_keywords(request):
 def learn(request, course_id):
     course = Class.objects.get(pk=course_id)
     all_cards = FlashCard.objects.filter(course=course)
-    # if request.user.is_authenticated:
-    #     all_cards = FlashCard.objects.filter(creator=request.user.id, known=0)
-    # else:
-    #     all_cards = FlashCard.objects.all()
 
     if all_cards.exists():
         card = all_cards.order_by('?').first()
-        context = {'card': card}
+        context = get_base_context(request)
+        context['card'] = card
         return render(request, 'flashcards/learn.html', context)
     else:
         messages.info(request, "No cards to learn. Add some cards!")
@@ -173,10 +178,13 @@ def learn(request, course_id):
 # mark a card as known
 @login_required
 def mark_known(request, id):
+    referer = request.META.get('HTTP_REFERER')
+    rdr = "/".join(referer.split('/')[:6])
+    print("Redirecting to:", redirect)
     card = FlashCard.objects.get(id=id)
     card.known = 1
     card.save()
-    return redirect('learn')
+    return redirect(rdr)
 
 
 # liking a card

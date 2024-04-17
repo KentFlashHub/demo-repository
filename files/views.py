@@ -5,9 +5,16 @@ from social.models import Friends, FriendRequestStatus
 from django.http import FileResponse
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from flashcards.views import user_list
+from flashcards.models import FlashCard
+from flashcards.views import get_counts, get_base_context
 
 @xframe_options_sameorigin
 def view(request, directory_path):
+    if request.user.is_authenticated:
+        all_cards = FlashCard.objects.filter(creator=request.user.id)
+    else:
+        all_cards = FlashCard.objects.all()
+    counts = get_counts(all_cards)
     directories = directory_path.split('/')
     user = request.user
     parent = None
@@ -80,8 +87,16 @@ def view(request, directory_path):
 
     for directory in output_dirs:
         directory.full_path = directory_path + '/' + directory.name
-
-    return render(request, 'files/view.html', {'files': files, 'directories': output_dirs, 'parent': parent, 'path': directory_path, 'parent_dir': parent_dir, 'file_form': file_form, 'directory_form': directory_form, 'owner': parent.user.username, 'user_list': user_list()})
+    context = get_base_context(request)
+    context['files'] = files
+    context['directories'] = output_dirs
+    context['parent'] = parent 
+    context['path'] = directory_path 
+    context['parent_dir'] = parent_dir 
+    context['file_form'] = file_form 
+    context['directory_form'] = directory_form 
+    context['owner'] = parent.user.username
+    return render(request, 'files/view.html', context )
 
 def serve_file(request, file_id):
     file = File.objects.get(id=file_id)
@@ -94,16 +109,14 @@ def are_friends(user1, user2):
     return Friends.objects.filter(requester=user1, receiver=user2, status=FriendRequestStatus.ACCEPTED) or Friends.objects.filter(requester=user2, receiver=user1, status=FriendRequestStatus.ACCEPTED)
 
 def home(request):
-    resp = {
-        'files': [],
-        'directories': [],
-        'parent': None,
-        'path': '',
-        'parent_dir': '',
-        'file_form': FileForm(),
-        'directory_form': DirectoryForm(),
-        'owner': '',
-        'user_list': user_list()
-    }
-
-    return render(request, 'files/view.html', resp)
+    context = get_base_context(request)
+    context['files'] = []
+    context['directories'] = []
+    context['parent'] = None
+    context['path'] = ''
+    context['parent_dir'] = ''
+    context['file_form'] = FileForm()
+    context['directory_form'] = DirectoryForm()
+    context['owner'] = ''
+    
+    return render(request, 'files/view.html', context)

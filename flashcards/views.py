@@ -112,6 +112,7 @@ def add_card(request, course_id):
         form = FlashCardForm()
     context = get_base_context(request)
     context['course_id'] = request.GET.get('course_id')
+    context['form'] = form
     return render(request, 'flashcards/add_card.html', context)
 
 

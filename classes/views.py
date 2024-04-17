@@ -22,7 +22,12 @@ def enroll(request):
         enroll = Enrollment(course_id = class_instance, user_id = request.user)
         enroll.save()
 
-        Directory.objects.create(name=class_instance.name, user=request.user, parent_directory=request.user.username, visibility=FileVisibility.PUBLIC)
+        Directory.objects.create(
+            name=class_instance.name,
+            user=request.user,
+            parent_directory=Directory.objects.get(user=request.user, name=request.user.username, parent_directory=None),
+            visibility=FileVisibility.PUBLIC
+            )
         return redirect('/courses/' + form['name'].value())
     else:
         enrollments = Enrollment.objects.filter(user_id = request.user)

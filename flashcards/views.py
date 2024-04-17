@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from files.models import File
 
 
 # -------------------------------------------------------------------------------
@@ -33,16 +34,29 @@ def get_popular_cards(all_cards, n):
 def home(request):
     if request.user.is_authenticated:
         all_cards = FlashCard.objects.filter(creator=request.user.id)
+        all_files = File.objects.filter(user=request.user.id)
     else:
         all_cards = FlashCard.objects.all()
+        all_files = File.objects.all()
     paginator = Paginator(all_cards, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     counts = get_counts(all_cards)
-    popular_cards = all_cards.order_by('-likes')[:3]
+    popular_cards = [i for i in all_cards.order_by('-likes')[:10]]
+    files = [i for i in all_files.order_by('-created_at')[:10]]
 
-    context = {'page_obj':page_obj, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
+    for f in files:
+        f.type = "file"
+        f.url = f.file.url
+
+
+    for c in popular_cards:
+        c.type = "card"
+
+    lst = sorted(files + popular_cards, key=lambda x: random.randint(1,1000), reverse=True)
+
+    context = {'page_obj':page_obj, 'counts':counts, 'items':lst, 'user_list': user_list()}
     return render(request, 'flashcards/home.html', context)
 
 

@@ -12,29 +12,55 @@
 		<hr class="hr-style-1">
 	{% endif %}
 
-	{% for card in page_obj %}           
-	   
-		<div class="container">
-					<div class="card mb-3 custom-card">
-						<div class="row no-gutters">
-							<div class="col-md-4">
-								<img src="{% static 'images/' %}{{ card.category }}1.gif" class="card-img" alt="{{ card.front }}">
-							</div>
-							<div class="col-md-8">
-								<div class="card-body">
-									<h5 class="card-title" style="color: #AEDAA3;"><strong>{{ card.front }}</strong></h5>
-									<p class="card-text">{{ card.back }}.</p>
-									<p class="card-text">
-										<a href="{% url 'mark_liked' card.id %}" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-										&nbsp;
-										<a href="{% url 'edit_card' card.id %}" class="btn-custom"><strong>Edit Card</strong></a>
-									</p>
+	{% for item in items %}
+
+		{% if item.type == 'card' %}
+			<div class="container">
+						<div class="card mb-3 custom-card">
+							<div class="row no-gutters">
+								<div class="col-md-4">
+									<img src="{% static 'images/' %}{{ item.category }}1.gif" class="card-img" alt="{{ item.front }}">
+								</div>
+								<div class="col-md-8">
+									<div class="card-body">
+										<h5 class="card-title" style="color: #AEDAA3;"><strong>{{ item.front }}</strong></h5>
+										<p class="card-text">{{ item.back }}.</p>
+										<p class="card-text">
+											<a href="{% url 'mark_liked' item.id %}" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+											&nbsp;
+											<a href="{% url 'edit_card' item.id %}" class="btn-custom"><strong>Edit Card</strong></a>
+										</p>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-		</div>
-		<hr class="hr-style-2">
+			</div>
+			<hr class="hr-style-2">
+		{% else %}
+			<li><a href="#" data-toggle="modal" data-target="#fileModal{{ forloop.counter }}">
+				<img src="{% static 'images/pdf.png' %}" alt="file" style="width: 20px; height: 20px;">
+				<br />
+				{{ item.name }}
+			</a></li>
+			<hr class="hr-style-2">
+			<!-- File Modal -->
+			<div class="modal fade" id="fileModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel{{ forloop.counter }}" aria-hidden="true">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="fileModalLabel{{ forloop.counter }}">{{ item.name }}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<span>{{ item.url }}</span>
+					<iframe src="{% url 'serve_file' item.id %}" width="100%" height="800px"></iframe>
+				</div>
+				</div>
+			</div>
+			</div>
+		{% endif %}
 	    
 	{% endfor %}
 

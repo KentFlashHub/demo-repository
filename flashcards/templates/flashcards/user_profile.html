@@ -4,6 +4,27 @@
 {% load static %}
 
 {% block content %}
+
+    
+    <h1>{{ owner }}'s Repository</h1>
+
+    {% if user.is_authenticated %}
+    {% if friend_status == 'pending' %}
+            <span>Friendship request pending</span>
+        {% elif friend_status == 'accepted' %}
+            <span> You are Friends</span>
+        {% elif friend_status == 'rejected' %}
+            <span>Friendship request rejected</span>
+        {% else %}
+            <form method="POST" action="{% url 'request_friendship' owner %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" name="friend_request_form" >Send Friend Request</button>
+            </form>
+        {% endif %}
+
+    {% endif %}
+    <br /><hr /><br />
+
 	{% for card in page_obj %}           
 	   
 		<div class="container">

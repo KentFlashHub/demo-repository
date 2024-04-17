@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from files.models import File
+from social.views import get_friend_status, get_friends
 
 
 # -------------------------------------------------------------------------------
@@ -33,14 +34,16 @@ def get_base_context(request):
     user = request.user
     if user.is_authenticated:
         all_cards = FlashCard.objects.filter(creator=user.id)
+        friends = get_friends(user)
     else:
         all_cards = FlashCard.objects.all()
+        friends = { 'accepted': [], 'pending': []}
     counts = get_counts(all_cards)
     popular_cards = get_popular_cards(all_cards, 3)
     paginator = Paginator(all_cards, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return {'counts': counts, 'page_obj': page_obj, 'user_list': user_list(), 'popular_cards': popular_cards}
+    return {'counts': counts, 'page_obj': page_obj, 'user_list': user_list(), 'popular_cards': popular_cards, 'pending_friends': friends['pending'], 'accepted_friends': friends['accepted']}
 
 # -------------------------------------------------------------------------------
 # home - show all cards 
@@ -88,7 +91,7 @@ def get_cards_by_category(request, category):
     
     for card in cards:
         card.type = "card"
-        
+
     context['items'] = cards
 
     return render(request, 'flashcards/home.html', context)
@@ -143,7 +146,10 @@ def user_profile(request, username):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    friend_status = get_friend_status(request.user, user)
     context = {'page_obj':page_obj, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
+    context['friend_status'] = friend_status
+    context['owner'] = username
     return render(request, 'flashcards/user_profile.html', context)
 
 

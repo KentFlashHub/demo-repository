@@ -7,19 +7,14 @@ from django.views.decorators.clickjacking import xframe_options_sameorigin
 from flashcards.views import user_list
 from flashcards.models import FlashCard
 from flashcards.views import get_counts, get_base_context
+from social.views import get_friend_status
 
 @xframe_options_sameorigin
 def view(request, directory_path):
-    if request.user.is_authenticated:
-        all_cards = FlashCard.objects.filter(creator=request.user.id)
-    else:
-        all_cards = FlashCard.objects.all()
-    counts = get_counts(all_cards)
     directories = directory_path.split('/')
     user = request.user
     parent = None
     parent_dir = "/".join(directories[:-1])
-    print("User:", user)
     directory = directories[::-1]
     while directory:
         try:
@@ -76,8 +71,8 @@ def view(request, directory_path):
         files = File.objects.filter(parent_directory=parent)
         output_dirs = Directory.objects.filter(parent_directory=parent)
     elif user.is_authenticated and are_friends(user, parent.user):
-        files = File.objects.filter(parent_directory=parent, visibility=FileVisibility.FRIENDS | FileVisibility.PUBLIC)
-        output_dirs = Directory.objects.filter(parent_directory=parent, visibility=FileVisibility.FRIENDS | FileVisibility.PUBLIC)
+        files = File.objects.filter(parent_directory=parent, visibility=FileVisibility.FRIENDS) | File.objects.filter(parent_directory=parent, visibility=FileVisibility.PUBLIC)
+        output_dirs = Directory.objects.filter(parent_directory=parent, visibility=FileVisibility.FRIENDS)  | Directory.objects.filter(parent_directory=parent, visibility=FileVisibility.PUBLIC)
     else:
         files = File.objects.filter(parent_directory=parent, visibility=FileVisibility.PUBLIC)
         output_dirs = Directory.objects.filter(parent_directory=parent, visibility=FileVisibility.PUBLIC)
@@ -87,6 +82,9 @@ def view(request, directory_path):
 
     for directory in output_dirs:
         directory.full_path = directory_path + '/' + directory.name
+    
+    friend_status = get_friend_status(user, parent.user)
+    
     context = get_base_context(request)
     context['files'] = files
     context['directories'] = output_dirs
@@ -96,6 +94,8 @@ def view(request, directory_path):
     context['file_form'] = file_form 
     context['directory_form'] = directory_form 
     context['owner'] = parent.user.username
+    context['friend_status'] = friend_status
+
     return render(request, 'files/view.html', context )
 
 def serve_file(request, file_id):

@@ -29,6 +29,19 @@ def get_popular_cards(all_cards, n):
     popular_cards = all_cards.order_by('likes')[:n]
     return popular_cards
 
+def get_base_context(request):
+    user = request.user
+    if user.is_authenticated:
+        all_cards = FlashCard.objects.filter(creator=user.id)
+    else:
+        all_cards = FlashCard.objects.all()
+    counts = get_counts(all_cards)
+    popular_cards = get_popular_cards(all_cards, 3)
+    paginator = Paginator(all_cards, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return {'counts': counts, 'page_obj': page_obj, 'user_list': user_list(), 'popular_cards': popular_cards}
+
 # -------------------------------------------------------------------------------
 # home - show all cards 
 def home(request):
@@ -56,7 +69,8 @@ def home(request):
 
     lst = sorted(files + popular_cards, key=lambda x: random.randint(1,1000), reverse=True)
 
-    context = {'page_obj':page_obj, 'counts':counts, 'items':lst, 'user_list': user_list()}
+    context = get_base_context(request)
+    context['items'] = lst
     return render(request, 'flashcards/home.html', context)
 
 
@@ -173,10 +187,13 @@ def learn(request, course_id):
 # mark a card as known
 @login_required
 def mark_known(request, id):
+    referer = request.META.get('HTTP_REFERER')
+    rdr = "/".join(referer.split('/')[:6])
+    print("Redirecting to:", redirect)
     card = FlashCard.objects.get(id=id)
     card.known = 1
     card.save()
-    return redirect('learn')
+    return redirect(rdr)
 
 
 # liking a card

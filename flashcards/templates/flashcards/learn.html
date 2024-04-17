@@ -6,6 +6,24 @@
 
 {% block content %}
 
+<script type="text/javascript">
+
+    function flipCard() {
+        var flipFront = document.getElementById('flip-front');
+        var flipBack = document.getElementById('flip-back');
+
+        // Toggle visibility between the front and back elements
+        if (flipFront.style.display === 'none') {
+            flipFront.style.display = 'block';
+            flipBack.style.display = 'none';
+        } else {
+            flipFront.style.display = 'none';
+            flipBack.style.display = 'block';
+        }
+    }
+
+</script>
+
 <div class="card text-center">
     <div class="card-header">
         {{card.category}}

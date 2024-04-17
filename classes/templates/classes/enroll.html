@@ -7,7 +7,10 @@
 
 {% block content %}
 
-<p>Courses you are already enrolled in do not appear in this list.</p>
+<a href="#" class="im" style="display: block; width: 200px; height: 250px; margin: auto; background-image: url({% static 'images/1.jpeg' %}); background-size: contain; background-position: center; background-repeat: no-repeat;"></a>
+
+<h2 style="text-align: center;">Enrollment</h2>
+<h3 style="text-align: center;">Courses you are already enrolled in will not appear in this list.</h3>
 	
 <div class="row pt-md-4">
     <div class="col-md-12">
@@ -24,6 +27,6 @@
     </div>
 </div>
 
-<p>If the class you are looking for does not exist, you may <a href ='{% url "create_course" %}'>create it</a>.</p>
+<p style="text-align: center;">If the class you are looking for does not exist, you may <a href ='{% url "create_course" %}'>create it</a>.</p>
 
 {% endblock %}

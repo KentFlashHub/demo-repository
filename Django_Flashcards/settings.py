@@ -71,10 +71,10 @@ SOCIALACCOUNT_PROVIDERS = {
         'SCOPE': ['profile', 'email'],
         'AUTH_PARAMS': {'access_type': 'online'},
         'OAUTH_CLIENT_CLASS': 'users.views.CustomGoogleOAuth2Adapter',
-        # 'APP': {
-        #     'client_id': os.getenv("GOOGLE_OAUTH2_CLIENT_ID"),
-        #     'secret': os.getenv("GOOGLE_OAUTH2_CLIENT_SECRET"),
-        # }
+        'APP': {
+            'client_id': os.getenv("GOOGLE_OAUTH2_CLIENT_ID"),
+            'secret': os.getenv("GOOGLE_OAUTH2_CLIENT_SECRET"),
+        }
     }
 }
 

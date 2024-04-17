@@ -6,12 +6,14 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-	
-<h2>My Courses</h2>
+
+<a href="#" class="im" style="display: block; width: 200px; height: 250px; margin: auto; background-image: url({% static 'images/2.jpeg' %}); background-size: contain; background-position: center; background-repeat: no-repeat;"></a>
+
+<h2>All Courses</h2>
 
 {% for course in course_list %}
 
-	<a href="/courses/{{ course.pk }}">{{ course }}</a><hr/>
+	<a href="/courses/{{ course.pk }}">{{ course }}</a><hr class="hr-style-2"/>
 
 {% endfor %}
 

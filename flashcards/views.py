@@ -85,6 +85,12 @@ def get_cards_by_category(request, category):
     context['popular_cards'] = popular_cards
     context['page_obj'] = page_obj
     context['counts'] = counts
+    
+    for card in cards:
+        card.type = "card"
+        
+    context['items'] = cards
+
     return render(request, 'flashcards/home.html', context)
 
 # add flashcard

@@ -1,1 +1,8 @@
-Django==5.0.4
+Django==4.2.11
+gunicorn==20.0.4
+django-crispy-forms
+django-heroku==0.3.1
+dj-database-url==0.5.0
+crispy_bootstrap4
+django-allauth
+python-dotenv==1.0.0

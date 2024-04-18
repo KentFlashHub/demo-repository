@@ -14,6 +14,7 @@
 					<form method="POST" action="">
 						{% csrf_token %}
 						{{ form|crispy }}
+						<input type='hidden' name='course_id' value='{{ course_id }}'/>
 						<input class="btn btn-primary" type="submit" name="Submit" value="Create A New Card">
 					</form>
 				</div>

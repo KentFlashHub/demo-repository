@@ -1,0 +1,80 @@
+
+{% extends "flashcards/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+    
+    <h1>{{ owner }}'s Repository</h1>
+
+    {% if user.is_authenticated %}
+    {% if friend_status == 'pending' %}
+            <span>Friendship request pending</span>
+        {% elif friend_status == 'accepted' %}
+            <span> You are Friends</span>
+        {% elif friend_status == 'rejected' %}
+            <span>Friendship request rejected</span>
+        {% else %}
+            <form method="POST" action="{% url 'request_friendship' owner %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" name="friend_request_form" >Send Friend Request</button>
+            </form>
+        {% endif %}
+
+    {% endif %}
+    <br /><hr /><br />
+
+<h2>New Feed</h2>
+	{% for card in page_obj %}           
+	
+		<div class="container">
+					<div class="card mb-3 custom-card">
+						<div class="row no-gutters">
+							<div class="col-md-4">
+								<img src="{% static 'images/' %}{{ card.category }}1.gif" class="card-img" alt="{{ card.front }}">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body">
+									<h5 class="card-title" style="color: #AEDAA3;"><strong>{{ card.front }}</strong></h5>
+									<p class="card-text">{{ card.back }}.</p>
+									<p class="card-text">
+										<a href="{% url 'mark_liked' card.id %}" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+										&nbsp;
+										<a href="{% url 'edit_card' card.id %}" class="btn-custom"><strong>Edit Card</strong></a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+		</div>
+		<hr class="hr-style-2">
+	    
+	{% endfor %}
+
+	
+    <div class="row">
+      <div class="col">
+        <div class="block-27">
+	        <div class="pagination">
+			    <span class="step-links">
+			        {% if page_obj.has_previous %}
+			            <a href="?page=1">&lt; first</a>
+			            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+			        {% endif %}
+
+			        <span class="current">
+			            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+			        </span>
+
+			        {% if page_obj.has_next %}
+			            <a href="?page={{ page_obj.next_page_number }}">next</a>
+			            <a href="?page={{ page_obj.paginator.num_pages }}">last &gt;</a>
+			        {% endif %}
+			    </span>
+			</div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+
+{% extends "flashcards/base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<h3 style="text-align: center;">You will be responsible for managing the course.</h3>
+
+<div class="row pt-md-4">
+    <div class="col-md-12">
+        <div class="blog-entry ftco-animate d-md-flex">
+            <div class="form-flashcard">
+				<form method="POST" action="">
+					{% csrf_token %}
+					{{ form|crispy }}
+					<input class="btn btn-primary" type="submit" name="Submit" value="Create Course">
+				</form>
+			</div>
+			
+        </div>
+    </div>
+</div>
+
+<p style="text-align: center;">After creating course, please go back enrollment to enroll class</p>
+
+
+
+{% endblock %}

@@ -19,20 +19,6 @@
     <link rel="stylesheet" href="{% static '/css/style.css' %}">
     <link rel="stylesheet" href="{% static '/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css' %}">
 
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-		
-    <style>
-        .friend-list {
-            height: 200px;
-            overflow-y: scroll;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-    </style>
-
 </head>
 <body>
 
@@ -47,10 +33,9 @@
             <nav id="colorlib-main-menu" role="navigation">
                 <ul>
                     <li class="{% if request.resolver_match.url_name == 'home' %}colorlib-active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'add_card' %}colorlib-active{% endif %}"><a href="{% url 'add_card' %}">Create Card</a></li>
+                    <li class="{% if request.resolver_match.url_name == 'learn' %}colorlib-active{% endif %}"><a href="{% url 'learn' %}">Learn Card</a></li>
                     {% if user.is_authenticated %}
-						<li class="{% if request.resolver_match.url_name == 'my_courses' %}colorlib-active{% endif %}"><a href="{% url 'my_courses' %}">My Courses</a></li>
-						<li class="{% if request.resolver_match.url_name == 'enroll_course' %}colorlib-active{% endif %}"><a href="{% url 'enroll_course' %}">Enroll in Course</a></li>
-						<li class="{% if request.resolver_match.url_name == 'view' %}colorlib-active{% endif %}"><a href="{% url 'view' user.username %}">Files</a></li>
 						<li>
 							<span>{{ user.username }}&nbsp;></span>
 							<form action="{% url 'logout' %}" method="post" class="inline-form">
@@ -59,43 +44,9 @@
 							</form>
 						</li>
                     {% else %}
-						<li class="{% if request.resolver_match.url_name == 'view' %}colorlib-active{% endif %}"><a href="{% url 'files'%}">Files</a></li>
                         <li><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}
                 </ul>
-
-				<h1>Friend List</h1>
-                <div class="friend-list">
-                    {% for friend in pending_friends %}
-                        <div>
-                            <span>{{ friend.first_name}} {{ friend.last_name }}</span>
-                                <form method="post" action="{% url 'friend_respond' friend.username 'accept' %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Accept</button>
-                                </form>
-                                <form method="post" action="{% url 'friend_respond' friend.username 'reject' %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Reject</button>
-                                </form>
-                        </div>
-                    {% empty %}
-                        <p>No friends requests found.</p>
-                    {% endfor %}
-                </div>
-                <div class="friend-list">
-                    {% for friend in accepted_friends %}
-                        <div>
-                            <span>{{ friend.first_name}} {{ friend.last_name }}</span>
-                            <form method="post" action="{% url 'friend_respond' friend.username 'remove' %}">
-                                {% csrf_token %}
-                                <button type="submit">Remove</button>
-                            </form>
-                        </div>
-                    {% empty %}
-                        <p>No friends found.</p>
-                    {% endfor %}
-            </nav>
-
             </nav>
 
             <div class="colorlib-footer">
@@ -142,9 +93,15 @@
 					<div class="sidebar-box ftco-animate">
 						<h3 class="sidebar-heading">Users Cloud</h3>
 						<ul class="tagcloud">
-						  {% for user in user_list %}
-						  	<a href="{% url 'user_profile' user.username %}" class="tag-cloud-link" style="background-image: url({% static user.image %});"></a>
-						  {% endfor %}
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u1.png' %});"></a>
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u2.png' %});"></a>
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u3.png' %});"></a>
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u4.png' %});"></a>
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u5.png' %});"></a>
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u6.png' %});"></a>
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u7.png' %});"></a>
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u8.png' %});"></a>
+						  <a href="#" class="tag-cloud-link" style="background-image: url({% static 'images/u9.png' %});"></a>
 						</ul>
 					  </div>
                     

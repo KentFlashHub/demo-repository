@@ -1,0 +1,56 @@
+
+{% extends "flashcards/base.html" %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+	
+<h2 style="display: flex; align-items: center; color: inherit;">
+	<img src="{% static 'images/f2.jpeg' %}" alt="Icon" style="width: 50px; height: 50px; margin-right: 10px;">
+	{{ course.prefixed_id }} {{ course.name }}</h2>
+
+	<style>
+		.btn-custom {
+		  border: none;
+		  border-radius: 5px; 
+		  margin-top: 20px;
+		  padding: 10px 20px; 
+		  color: #fff; 
+		  background-color:  #AEDAA3; 
+		  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
+		  transition: all 0.3s; 
+		  text-decoration: none; 
+		  cursor: pointer; 
+		  width: 500px;
+		  height: 100px;
+		  font-size: 25px;
+		}
+	  
+		.btn-custom:hover {
+		  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
+		  transform: translateY(-2px); 
+		}
+	  </style>
+	  
+	  <form class="colorlib-subscribe-form" action="/courses/{{ course.pk }}/learn">
+		  {% csrf_token %}
+		  <input type='hidden' name='course_id' value='{{ course.pk }}'/>
+		  <div class="form-group d-flex">
+			  <button type="submit" class="btn-custom">Study Flashcards</button>
+		  </div>
+	  </form>
+	  
+	  <form class="colorlib-subscribe-form" action="/courses/{{ course.pk }}/add_card">
+		  {% csrf_token %}
+		  <input type='hidden' name='course_id' value='{{ course.pk }}'/>
+		  <div class="form-group d-flex">
+			  <button type="submit" class="btn-custom">Add Flashcard</button>
+		  </div>
+	  </form>
+	  
+
+{% endblock %}

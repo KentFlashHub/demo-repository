@@ -33,9 +33,11 @@ def get_popular_cards(all_cards, n):
 def get_base_context(request):
     user = request.user
     if user.is_authenticated:
-        all_cards = FlashCard.objects.filter(creator=user.id)
+        print("User is authenticated")
+        all_cards = FlashCard.objects.filter(creator=user)
         friends = get_friends(user)
     else:
+        print("User is not authenticated")
         all_cards = FlashCard.objects.all()
         friends = { 'accepted': [], 'pending': []}
     counts = get_counts(all_cards)

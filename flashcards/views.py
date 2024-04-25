@@ -148,7 +148,7 @@ def user_profile(request, username):
     page_obj = paginator.get_page(page_number)
 
     friend_status = get_friend_status(request.user, user)
-    context = {'page_obj':page_obj, 'counts':counts, 'popular_cards':popular_cards, 'user_list': user_list()}
+    context = get_base_context(request)
     context['friend_status'] = friend_status
     context['owner'] = username
     return render(request, 'flashcards/user_profile.html', context)

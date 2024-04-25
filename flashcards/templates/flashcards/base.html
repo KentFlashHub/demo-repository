@@ -26,11 +26,19 @@
 		
     <style>
         .friend-list {
-            height: 200px;
-            overflow-y: scroll;
-            border: 1px solid #ccc;
+            overflow-y: auto;
             padding: 10px;
         }
+
+        .friend-list button{
+            background-color: #5BC36E;
+            color: white;
+            border: none;
+            padding: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
     </style>
 
 </head>
@@ -63,30 +71,33 @@
                         <li><a href="{% url 'login' %}">Login</a></li>
                     {% endif %}
                 </ul>
-
-				<h1>Friend List</h1>
-                <div class="friend-list">
-                    {% for friend in pending_friends %}
-                        <div>
-                            <span>{{ friend.first_name}} {{ friend.last_name }}</span>
-                                <form method="post" action="{% url 'friend_respond' friend.username 'accept' %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Accept</button>
-                                </form>
-                                <form method="post" action="{% url 'friend_respond' friend.username 'reject' %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Reject</button>
-                                </form>
-                        </div>
-                    {% empty %}
-                        <p>No friends requests found.</p>
-                    {% endfor %}
+            {% if user.is_authenticated %}
+              <br />
+              <h3>Friend Requests</h3>
+              <div class="friend-list">
+                {% for friend in pending_friends %}
+                <div>
+                  <form method="post" action="{% url 'friend_respond' friend.username 'accept' %}" style="display: inline-block; margin-right: 10px;">
+                    <span>{{ friend.first_name}} {{ friend.last_name }}</span>
+                    {% csrf_token %}
+                    <button type="submit">Accept</button>
+                  </form>
+                  <form method="post" action="{% url 'friend_respond' friend.username 'reject' %}" style="display: inline-block;">
+                    {% csrf_token %}
+                    <button type="submit">Reject</button>
+                  </form>
                 </div>
+                {% empty %}
+                <p>No friends requests found.</p>
+                {% endfor %}
+              </div>
+              <br />
+              <h3>Friend List</h3>
                 <div class="friend-list">
                     {% for friend in accepted_friends %}
                         <div>
-                            <span>{{ friend.first_name}} {{ friend.last_name }}</span>
-                            <form method="post" action="{% url 'friend_respond' friend.username 'remove' %}">
+                          <form method="post" action="{% url 'friend_respond' friend.username 'remove' %}">
+                                <span>{{ friend.first_name}} {{ friend.last_name }}</span>
                                 {% csrf_token %}
                                 <button type="submit">Remove</button>
                             </form>
@@ -94,8 +105,8 @@
                     {% empty %}
                         <p>No friends found.</p>
                     {% endfor %}
-            </nav>
-
+                </div>
+            {% endif %}
             </nav>
 
             <div class="colorlib-footer">

@@ -1,9 +1,13 @@
 from django.shortcuts import redirect
 from .models import Friends, FriendRequestStatus
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AnonymousUser
 
 # Create your views here.
 def get_friend_status(user, friend):
+    if isinstance(user, AnonymousUser) or isinstance(friend, AnonymousUser):
+        return None
+
     friendship = list(Friends.objects.filter(requester=user, receiver=friend)) + list(Friends.objects.filter(requester=friend, receiver=user))
     if user == friend:
         return 'accepted'

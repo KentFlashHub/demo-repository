@@ -38,11 +38,15 @@
 								<div class="card-body">
 									<h5 class="card-title" style="color: #AEDAA3;"><strong>{{ card.front }}</strong></h5>
 									<p class="card-text">{{ card.back }}.</p>
-									<p class="card-text">
-										<a href="{% url 'mark_liked' card.id %}" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
-										&nbsp;
-										<a href="{% url 'edit_card' card.id %}" class="btn-custom"><strong>Edit Card</strong></a>
-									</p>
+									{% if user.is_authenticated %}
+										<p class="card-text">
+											<a href="{% url 'mark_liked' card.id %}" class="btn btn-primary btn-sm"><i class="fa fa-heart"></i></a>
+											&nbsp;
+											{% if card.creator == user %}
+											<a href="{% url 'edit_card' card.id %}" class="btn-custom"><strong>Edit Card</strong></a>
+											{% endif %}
+										</p>
+										{% endif %}
 								</div>
 							</div>
 						</div>

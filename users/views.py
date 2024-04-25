@@ -6,6 +6,7 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.shortcuts import redirect
 from allauth.exceptions import ImmediateHttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from flashcards.views import get_base_context
 
 from files.models import Directory
@@ -55,3 +56,11 @@ def login(request):
         return redirect('home')
     context = get_base_context(request)
     return render(request, 'users/login.html', context)
+
+def logout_view(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+    context = get_base_context(request)
+    logout(request)
+    return render(request, 'users/logout.html', context)
+

@@ -153,6 +153,7 @@ def user_profile(request, username):
     context = get_base_context(request)
     context['friend_status'] = friend_status
     context['owner'] = username
+    context['page_obj'] = page_obj
     return render(request, 'flashcards/user_profile.html', context)
 
 
@@ -170,12 +171,13 @@ def search_keywords(request):
 
 
 # learn with flashcards
-def learn(request, course_id):
+def learn(request, course_id,):
     course = Class.objects.get(pk=course_id)
     all_cards = FlashCard.objects.filter(course=course)
 
     if all_cards.exists():
-        card = all_cards.order_by('?').first()
+        card = list(all_cards.order_by('?'))
+        card = card[random.randint(0, len(card)-1)]
         context = get_base_context(request)
         context['card'] = card
         return render(request, 'flashcards/learn.html', context)

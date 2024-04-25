@@ -10,9 +10,9 @@
 
 {% block content %}
 
-<h1>{{ owner }}'s Repository</h1>
-
 {% if user.is_authenticated %}
+    <h1>{{ owner }}'s Repository</h1>
+
    {% if friend_status == 'pending' %}
         <span>Friendship request pending</span>
     {% elif friend_status == 'accepted' %}

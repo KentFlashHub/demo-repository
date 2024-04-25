@@ -6,6 +6,7 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.shortcuts import redirect
 from allauth.exceptions import ImmediateHttpResponse
 from django.contrib.auth.models import User
+from flashcards.views import get_base_context
 
 from files.models import Directory
 
@@ -43,4 +44,14 @@ def register(request):
             return redirect('login')
     else:
         form = UserRegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+
+    context = get_base_context(request)
+    context['form'] = form
+
+    return render(request, 'users/register.html', context)
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    context = get_base_context(request)
+    return render(request, 'users/login.html', context)

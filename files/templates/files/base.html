@@ -54,10 +54,10 @@
             <nav id="colorlib-main-menu" role="navigation">
                 <ul>
                     <li class="{% if request.resolver_match.url_name == 'home' %}colorlib-active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
                     <li class="{% if request.resolver_match.url_name == 'my_courses' %}colorlib-active{% endif %}"><a href="{% url 'my_courses' %}">My Courses</a></li>
                     <li class="{% if request.resolver_match.url_name == 'enroll_course' %}colorlib-active{% endif %}"><a href="{% url 'enroll_course' %}">Enroll in Course</a></li>
-                    {% if user.is_authenticated %}
-						<li class="{% if request.resolver_match.url_name == 'view' %}colorlib-active{% endif %}"><a href="{% url 'view' user.username %}">Files</a></li>
+						        <li class="{% if request.resolver_match.url_name == 'view' %}colorlib-active{% endif %}"><a href="{% url 'view' user.username %}">Files</a></li>
 						<li>
 							<span>{{ user.username }}&nbsp;></span>
 							<form action="{% url 'logout' %}" method="post" class="inline-form">
